@@ -1,4 +1,6 @@
 .DS_STORE
 .env
+!.env.example
+!.envrc
 **/__pycache__
 node_modules
