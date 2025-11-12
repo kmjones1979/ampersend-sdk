@@ -207,8 +207,22 @@ app.get("/", (req, res) => {
       chat: "POST /api/chat",
       health: "GET /api/health",
       tools: "GET /api/tools",
+      info: "GET /info",
     },
     docs: "Connect this backend to LangChain's Agent Chat UI at http://localhost:3000",
+  })
+})
+
+// LangGraph-compatible info endpoint
+app.get("/info", (req, res) => {
+  res.json({
+    graphs: {
+      "x402-agent": {
+        graph_id: "x402-agent",
+        state_schema: {},
+        config_schema: {},
+      },
+    },
   })
 })
 
@@ -237,6 +251,45 @@ app.get("/api/tools", async (req, res) => {
   } catch (error) {
     console.error("Error fetching tools:", error)
     res.status(500).json({ error: "Failed to fetch tools" })
+  }
+})
+
+// LangGraph-compatible threads endpoint
+app.get("/threads", (req, res) => {
+  res.json([])
+})
+
+// LangGraph-compatible runs endpoint (streaming)
+app.post("/threads/:threadId/runs/stream", async (req, res) => {
+  // This is a simplified adapter - redirect to our chat endpoint
+  const { input } = req.body
+  
+  // Set up SSE
+  res.setHeader("Content-Type", "text/event-stream")
+  res.setHeader("Cache-Control", "no-cache")
+  res.setHeader("Connection", "keep-alive")
+
+  try {
+    const messages = [new HumanMessage(input)]
+    const stream = await agent.stream({ messages })
+
+    for await (const chunk of stream) {
+      if (chunk.agent?.messages) {
+        const lastMessage = chunk.agent.messages[chunk.agent.messages.length - 1]
+        if (lastMessage.content) {
+          res.write(`data: ${JSON.stringify({ 
+            event: "values",
+            data: { messages: [lastMessage] }
+          })}\n\n`)
+        }
+      }
+    }
+    
+    res.write(`data: ${JSON.stringify({ event: "end" })}\n\n`)
+    res.end()
+  } catch (error) {
+    console.error("Stream error:", error)
+    res.end()
   }
 })
 
