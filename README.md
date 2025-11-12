@@ -4,11 +4,12 @@ Multi-language SDK for building applications with [x402](https://github.com/coin
 
 ## 📦 Language Support
 
-- **Python** - A2A protocol integration with wallet implementations and payment middleware
-  - [Python SDK Documentation](./python/README.md)
+-   **Python** - A2A protocol integration with wallet implementations and payment middleware
 
-- **TypeScript** - MCP protocol integration with client, proxy, and server implementations
-  - [TypeScript SDK Documentation](./typescript/README.md)
+    -   [Python SDK Documentation](./python/README.md)
+
+-   **TypeScript** - MCP protocol integration with client, proxy, and server implementations
+    -   [TypeScript SDK Documentation](./typescript/README.md)
 
 ## 🚀 Quick Start
 
@@ -41,6 +42,9 @@ echo "your query" | uv --directory=python/examples run -- adk run src/examples/a
 cd typescript
 pnpm install
 
+# Build
+pnpm build
+
 # Configure environment
 cp .env.example .env
 # Edit .env with your credentials
@@ -62,15 +66,15 @@ pnpm --filter fastmcp-x402-server dev
 
 **Supported Transports:**
 
-- **A2A** (Agent-to-Agent) - Transport protocol for agent communication with payment capabilities
-- **MCP** (Model Context Protocol) - Transport protocol for LLM-tool integration with payment capabilities
+-   **A2A** (Agent-to-Agent) - Transport protocol for agent communication with payment capabilities
+-   **MCP** (Model Context Protocol) - Transport protocol for LLM-tool integration with payment capabilities
 
 **Key Components:**
 
-- **Treasurer** - Authorizes and tracks payments
-- **Wallet** - Creates and signs payment proofs (EOA and Smart Account support)
-- **Client** - Initiates requests with payment handling
-- **Server** - Verifies payments and processes requests
+-   **Treasurer** - Authorizes and tracks payments
+-   **Wallet** - Creates and signs payment proofs (EOA and Smart Account support)
+-   **Client** - Initiates requests with payment handling
+-   **Server** - Verifies payments and processes requests
 
 ### Repository Structure
 
@@ -89,20 +93,20 @@ ampersend-sdk/
 
 ### Python
 
-- **uv** - Dependency management ([install](https://astral.sh/uv))
-- **Python 3.13+**
+-   **uv** - Dependency management ([install](https://astral.sh/uv))
+-   **Python 3.13+**
 
 ### TypeScript
 
-- **Node.js 18+**
-- **pnpm** - Package manager
+-   **Node.js 18+**
+-   **pnpm** - Package manager
 
 ### Development
 
-- **Google API Key** - Required for examples ([get key](https://aistudio.google.com/app/apikey))
-- **OpenAI API Key** - Required for examples ([get key](https://platform.openai.com/api-keys))
-- **Test USDC** - For payment testing ([Circle faucet](https://faucet.circle.com))
-- **Private Key** - Ethereum wallet for signing payments
+-   **Google API Key** - Required for examples ([get key](https://aistudio.google.com/app/apikey))
+-   **OpenAI API Key** - Required for examples ([get key](https://platform.openai.com/api-keys))
+-   **Test USDC** - For payment testing ([Circle faucet](https://faucet.circle.com))
+-   **Private Key** - Ethereum wallet for signing payments
 
 ## 📄 License
 
