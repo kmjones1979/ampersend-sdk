@@ -197,6 +197,21 @@ app.post("/api/chat", async (req, res) => {
   }
 })
 
+// Root endpoint with info
+app.get("/", (req, res) => {
+  res.json({
+    name: "LangChain x402 MCP Backend",
+    version: "1.0.0",
+    status: agent ? "ready" : "initializing",
+    endpoints: {
+      chat: "POST /api/chat",
+      health: "GET /api/health",
+      tools: "GET /api/tools",
+    },
+    docs: "Connect this backend to LangChain's Agent Chat UI at http://localhost:3000",
+  })
+})
+
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({
