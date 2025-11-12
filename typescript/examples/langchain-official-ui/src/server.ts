@@ -278,10 +278,8 @@ app.get("/threads/:threadId", (req, res) => {
 })
 
 app.get("/threads/:threadId/history", (req, res) => {
-  // Return empty history for now
-  res.json({
-    values: [],
-  })
+  // Return empty history array
+  res.json([])
 })
 
 app.post("/threads/:threadId/history", (req, res) => {
