@@ -254,16 +254,34 @@ app.get("/api/tools", async (req, res) => {
   }
 })
 
-// LangGraph-compatible threads endpoint
+// LangGraph-compatible threads endpoints
 app.get("/threads", (req, res) => {
   res.json([])
+})
+
+app.post("/threads", (req, res) => {
+  // Create a new thread
+  const threadId = `thread_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  res.json({
+    thread_id: threadId,
+    created_at: new Date().toISOString(),
+    metadata: {},
+  })
+})
+
+app.get("/threads/:threadId", (req, res) => {
+  res.json({
+    thread_id: req.params.threadId,
+    created_at: new Date().toISOString(),
+    metadata: {},
+  })
 })
 
 // LangGraph-compatible runs endpoint (streaming)
 app.post("/threads/:threadId/runs/stream", async (req, res) => {
   // This is a simplified adapter - redirect to our chat endpoint
   const { input } = req.body
-  
+
   // Set up SSE
   res.setHeader("Content-Type", "text/event-stream")
   res.setHeader("Cache-Control", "no-cache")
@@ -277,14 +295,16 @@ app.post("/threads/:threadId/runs/stream", async (req, res) => {
       if (chunk.agent?.messages) {
         const lastMessage = chunk.agent.messages[chunk.agent.messages.length - 1]
         if (lastMessage.content) {
-          res.write(`data: ${JSON.stringify({ 
-            event: "values",
-            data: { messages: [lastMessage] }
-          })}\n\n`)
+          res.write(
+            `data: ${JSON.stringify({
+              event: "values",
+              data: { messages: [lastMessage] },
+            })}\n\n`,
+          )
         }
       }
     }
-    
+
     res.write(`data: ${JSON.stringify({ event: "end" })}\n\n`)
     res.end()
   } catch (error) {

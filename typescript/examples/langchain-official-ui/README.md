@@ -11,11 +11,24 @@ pnpm install
 # 2. Create the official UI
 pnpm setup
 
-# 3. Set environment variables
+# 3. Set environment variables for backend
 cp .env.example .env
 # Edit .env with your values
 
-# 4. Run everything
+# 4. Configure the frontend to connect to backend
+echo 'NEXT_PUBLIC_API_URL=http://localhost:3001' > ui/apps/web/.env.local
+
+# 5. Disable built-in agents (we're using our backend)
+cat > ui/langgraph.json << 'EOF'
+{
+  "node_version": "20",
+  "dependencies": ["."],
+  "graphs": {},
+  "env": ".env"
+}
+EOF
+
+# 6. Run everything
 pnpm dev
 ```
 
